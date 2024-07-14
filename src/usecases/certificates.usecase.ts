@@ -12,6 +12,7 @@ class CertificateUseCase {
         this.userRepository = new UserRepositoryPrisma();
     }
 
+    // Cria um novo certificado
     async create({ titulo, tipo, horas, data, participante, participacao, userId }: CertificateCreate) {
         // Buscar o usuário pelo ID
         const user = await this.userRepository.findById(userId);
@@ -39,23 +40,23 @@ class CertificateUseCase {
         return certificate;
     }
 
+    // Retorna todos os certificados
     async getAll() {
-        // Retornar todos os certificados
         return await this.certificateRepository.getAll();
     }
 
+    // Busca um certificado pelo ID
     async getById(id: string) {
-        // Buscar certificado por ID
         return await this.certificateRepository.getById(id);
     }
 
+    // Atualiza um certificado pelo ID
     async update(id: string, data: CertificateCreate) {
-        // Atualizar certificado
         return await this.certificateRepository.update(id, data);
     }
 
+    // Deleta um certificado pelo ID
     async delete(id: string) {
-        // Excluir certificado
         return await this.certificateRepository.delete(id);
     }
 }

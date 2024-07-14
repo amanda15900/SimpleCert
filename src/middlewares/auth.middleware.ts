@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
+// Middleware de autenticação
 export function authMiddleware(req: FastifyRequest, reply: FastifyReply) {
   const apiEmail = req.headers['email'];
 

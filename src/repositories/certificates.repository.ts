@@ -4,6 +4,7 @@ import { Certificate, CertificateCreate, CertificateRepository } from '../interf
 const prisma = new PrismaClient();
 
 class CertificateRepositoryPrisma implements CertificateRepository {
+    // Cria um novo certificado
     async create(data: CertificateCreate): Promise<Certificate> {
         const certificate = await prisma.certificate.create({
             data: {
@@ -19,6 +20,7 @@ class CertificateRepositoryPrisma implements CertificateRepository {
         return certificate;
     }
 
+    // Encontra um certificado pelo email do usuário ou título
     async findByEmailOrTitulo(email: string, titulo: string): Promise<Certificate | null> {
         const certificate = await prisma.certificate.findFirst({
             where: {
@@ -32,12 +34,14 @@ class CertificateRepositoryPrisma implements CertificateRepository {
         return certificate;
     }
 
+    // Retorna todos os certificados
     async getAll(): Promise<Certificate[]> {
         return await prisma.certificate.findMany({
             include: { user: true },
         });
     }
 
+    // Encontra um certificado pelo ID
     async getById(id: string): Promise<Certificate | null> {
         return await prisma.certificate.findUnique({
             where: { id },
@@ -45,6 +49,7 @@ class CertificateRepositoryPrisma implements CertificateRepository {
         });
     }
 
+    // Atualiza um certificado pelo ID
     async update(id: string, data: CertificateCreate): Promise<Certificate | null> {
         const certificate = await prisma.certificate.update({
             where: { id },
@@ -61,6 +66,7 @@ class CertificateRepositoryPrisma implements CertificateRepository {
         return certificate;
     }
 
+    // Deleta um certificado pelo ID
     async delete(id: string): Promise<Certificate | null> {
         const certificate = await prisma.certificate.delete({
             where: { id },
