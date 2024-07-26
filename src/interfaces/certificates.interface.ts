@@ -8,10 +8,10 @@ export interface Certificate {
     participante: string;
     participacao: string;
     userId: string;
-}
-
-// Definição do modelo CertificateCreate para criação de certificado
-export interface CertificateCreate {
+  }
+  
+  // Definição do modelo CertificateCreate para criação de certificado
+  export interface CertificateCreate {
     titulo: string;
     tipo: string;
     horas: number;
@@ -19,14 +19,15 @@ export interface CertificateCreate {
     participante: string;
     participacao: string;
     userId: string;
-}
-
-// Interface do repositório de certificados
-export interface CertificateRepository {
+  }
+  
+  // Interface do repositório de certificados
+  export interface CertificateRepository {
     create(data: CertificateCreate): Promise<Certificate>;
     findByEmailOrTitulo(email: string, titulo: string): Promise<Certificate | null>;
     getAll(): Promise<Certificate[]>;
     getById(id: string): Promise<Certificate | null>;
     update(id: string, data: CertificateCreate): Promise<Certificate | null>;
     delete(id: string): Promise<Certificate | null>;
-}
+  }
+  

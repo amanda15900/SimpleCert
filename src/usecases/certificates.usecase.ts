@@ -4,61 +4,55 @@ import { UserRepository } from '../interfaces/user.interface';
 import { UserRepositoryPrisma } from '../repositories/user.repository';
 
 class CertificateUseCase {
-    private certificateRepository: CertificateRepository;
-    private userRepository: UserRepository;
+  private certificateRepository: CertificateRepository;
+  private userRepository: UserRepository;
 
-    constructor() {
-        this.certificateRepository = new CertificateRepositoryPrisma();
-        this.userRepository = new UserRepositoryPrisma();
+  constructor() {
+    this.certificateRepository = new CertificateRepositoryPrisma();
+    this.userRepository = new UserRepositoryPrisma();
+  }
+
+  // Cria um novo certificado
+  async create({ titulo, tipo, horas, data, participante, participacao, userId }: CertificateCreate) {
+    // Buscar o usuário pelo ID
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
     }
 
-    // Cria um novo certificado
-    async create({ titulo, tipo, horas, data, participante, participacao, userId }: CertificateCreate) {
-        // Buscar o usuário pelo ID
-        const user = await this.userRepository.findById(userId);
-        if (!user) {
-            throw new Error('User not found');
-        }
+    // Criar o certificado
+    const certificate = await this.certificateRepository.create({
+      titulo,
+      tipo,
+      horas,
+      data,
+      participante,
+      participacao,
+      userId,
+    });
 
-        // Validar se já existe um certificado com o mesmo email ou título
-        const verifyIfExistsCertificate = await this.certificateRepository.findByEmailOrTitulo(user.email, titulo);
-        if (verifyIfExistsCertificate) {
-            throw new Error('Certificate already exists');
-        }
+    return certificate;
+  }
 
-        // Criar o certificado
-        const certificate = await this.certificateRepository.create({
-            titulo,
-            tipo,
-            horas,
-            data,
-            participante,
-            participacao,
-            userId,
-        });
+  // Retorna todos os certificados
+  async getAll() {
+    return await this.certificateRepository.getAll();
+  }
 
-        return certificate;
-    }
+  // Busca um certificado pelo ID
+  async getById(id: string) {
+    return await this.certificateRepository.getById(id);
+  }
 
-    // Retorna todos os certificados
-    async getAll() {
-        return await this.certificateRepository.getAll();
-    }
+  // Atualiza um certificado pelo ID
+  async update(id: string, data: CertificateCreate) {
+    return await this.certificateRepository.update(id, data);
+  }
 
-    // Busca um certificado pelo ID
-    async getById(id: string) {
-        return await this.certificateRepository.getById(id);
-    }
-
-    // Atualiza um certificado pelo ID
-    async update(id: string, data: CertificateCreate) {
-        return await this.certificateRepository.update(id, data);
-    }
-
-    // Deleta um certificado pelo ID
-    async delete(id: string) {
-        return await this.certificateRepository.delete(id);
-    }
+  // Deleta um certificado pelo ID
+  async delete(id: string) {
+    return await this.certificateRepository.delete(id);
+  }
 }
 
 export { CertificateUseCase };

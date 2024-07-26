@@ -16,8 +16,59 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  // Rota de teste
-  fastify.get('/', (req, reply) => {
-    reply.send({ hello: 'world' });
+  // Rota para obter todos os usuários
+  fastify.get('/', async (req, reply) => {
+    try {
+      const users = await userUseCase.getAllUsers();
+      return reply.send(users);
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
+  // Rota para deletar um usuário
+  fastify.delete<{ Params: { id: string } }>('/:id', async (req, reply) => {
+    const { id } = req.params;
+    try {
+      const deletedUser = await userUseCase.delete(id);
+      if (deletedUser) {
+        return reply.send({ message: 'User deleted successfully' });
+      } else {
+        return reply.status(404).send({ message: 'User not found' });
+      }
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
+  // Rota para atualizar um usuário
+  fastify.put<{ Params: { id: string }, Body: UserCreate }>('/:id', async (req, reply) => {
+    const { id } = req.params;
+    const { name, email } = req.body;
+    try {
+      const updatedUser = await userUseCase.update(id, { name, email });
+      if (updatedUser) {
+        return reply.send(updatedUser);
+      } else {
+        return reply.status(404).send({ message: 'User not found' });
+      }
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
+  // Rota para autenticar um usuário
+  fastify.post<{ Body: { email: string } }>('/auth', async (req, reply) => {
+    const { email } = req.body;
+    try {
+      const user = await userUseCase.authenticate(email);
+      if (user) {
+        return reply.send(user);
+      } else {
+        return reply.status(401).send({ message: 'Authentication failed' });
+      }
+    } catch (error) {
+      reply.send(error);
+    }
   });
 }

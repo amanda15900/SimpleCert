@@ -30,6 +30,32 @@ class UserRepositoryPrisma implements UserRepository {
     });
     return user;
   }
+
+  // Obtém todos os usuários
+  async findMany(): Promise<User[]> {
+    const users = await prisma.user.findMany();
+    return users;
+  }
+
+  // Deleta um usuário pelo ID
+  async delete(id: string): Promise<User | null> {
+    const user = await prisma.user.delete({
+      where: { id },
+    });
+    return user;
+  }
+
+  // Atualiza um usuário pelo ID
+  async update(id: string, data: UserCreate): Promise<User | null> {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        name: data.name,
+        email: data.email,
+      },
+    });
+    return user;
+  }
 }
 
 export { UserRepositoryPrisma };
