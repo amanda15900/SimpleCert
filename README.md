@@ -1,10 +1,10 @@
 # API SimpleCert
 
-Esta é a documentação para a API SimpleCert. Esta API permite aos usuários gerenciar certificados, categorizá-los e realizar operações de CRUD (Create, Read, Update, Delete).
+Esta é a documentação para a API SimpleCert. Esta API permite aos Administrador gerenciar certificados, categorizá-los e realizar operações de CRUD (Create, Read, Update, Delete).
 
 ## Funcionalidades
 
-- Os usuários podem adicionar novos certificados com informações como:
+- O Administrador pode adicionar novos certificados com informações como:
   - Título do Certificado
   - Tipo
   - Carga horária em horas
@@ -156,7 +156,11 @@ Esta é a documentação para a API SimpleCert. Esta API permite aos usuários g
 ```
 
 ## Tecnologias Utilizadas
-
+### FRONT END
+- Html
+- Css
+- JavaScript
+### BACK END
 - Node.js
 - Fastify
 - Prisma
