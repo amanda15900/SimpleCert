@@ -156,7 +156,11 @@ Esta é a documentação para a API SimpleCert. Esta API permite aos usuários g
 ```
 
 ## Tecnologias Utilizadas
-
+FRON END: 
+- Html
+- Css
+- JavaScript: 
+BACK END
 - Node.js
 - Fastify
 - Prisma
